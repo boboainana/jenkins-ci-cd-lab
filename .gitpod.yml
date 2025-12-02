@@ -1,0 +1,56 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: 准备实验环境
+    init: |
+      echo "🚀 开始设置 Jenkins CI/CD 实验环境..."
+      echo "⏳ 这可能需要几分钟..."
+    command: |
+      # 显示环境信息
+      echo "========================================"
+      echo "📊 环境信息"
+      echo "========================================"
+      echo "系统: $(uname -a)"
+      echo "Java: $(java -version 2>&1 | head -1)"
+      echo "Maven: $(mvn -version 2>&1 | head -1)"
+      echo "Docker: $(docker --version)"
+      echo "Git: $(git --version)"
+      echo "========================================"
+      echo ""
+      echo "✅ 环境准备完成！"
+      echo ""
+      echo "📋 可用命令:"
+      echo "   start-jenkins    - 启动 Jenkins 服务器"
+      echo "   stop-jenkins     - 停止 Jenkins 服务器"
+      echo "   setup-project    - 设置示例项目"
+      echo "   show-help        - 显示帮助信息"
+
+vscode:
+  extensions:
+    - redhat.java
+    - vscjava.vscode-java-pack
+    - ms-azuretools.vscode-maven
+    - ms-azuretools.vscode-docker
+    - GitHub.vscode-pull-request-github
+    - oderwat.indent-rainbow
+
+ports:
+  - port: 8080
+    onOpen: open-preview
+    description: "Jenkins 控制台"
+  - port: 3000
+    onOpen: open-preview
+    description: "示例应用"
+  - port: 50000
+    description: "Jenkins Agent 端口"
+
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: true
+    pullRequestsFromForks: true
+    addCheck: true
+    addComment: false
+    addBadge: true
